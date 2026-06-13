@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BinaForm — Architecture Films and Community</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     THEME C — Bold Minimal (locked, applied directly to body)
+  ============================================================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    --bg: #FFFFFF;
+    --bg-card: #F2F2F2;
+    --bg-nav: #FFFFFFf5;
+    --text: #0A0A0A;
+    --text-muted: #555555;
+    --text-subtle: #999999;
+    --accent: #C1440E;
+    --accent-hover: #D85515;
+    --border: #E0E0E0;
+    --border-hover: #CCCCCC;
+    --tag-bg: #EBEBEB;
+    --tag-text: #C1440E;
+    --display-font: 'DM Serif Display', Georgia, serif;
+    --body-font: 'DM Sans', sans-serif;
+    --hero-display-size: clamp(3rem, 5.5vw, 5rem);
+    --hero-display-weight: 400;
+    --hero-display-style: normal;
+    --hero-line-height: 1.05;
+    --section-label-spacing: 0.2em;
+    --section-label-size: 0.68rem;
+    --card-radius: 0px;
+    --btn-primary-bg: #C1440E;
+    --btn-primary-text: #FFFFFF;
+    --btn-primary-hover: #D85515;
+    --btn-secondary-border: #0A0A0A;
+    --btn-secondary-text: #0A0A0A;
+    --btn-secondary-hover-bg: #0A0A0A0D;
+    --overlay-gradient: none;
+    --stat-size: clamp(2.8rem, 5vw, 4.8rem);
+    --stat-weight: 400;
+
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: var(--body-font);
+    font-size: 16px;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+  }
+
+  a { text-decoration: none; color: inherit; }
+  img { display: block; width: 100%; }
+
+  /* ============================================================
+     NAVIGATION
+  ============================================================ */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: var(--bg-nav);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    z-index: 100;
+  }
+
+  .nav-wordmark {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .nav-wordmark .logo {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--text);
+    text-transform: uppercase;
+  }
+
+  .nav-wordmark .logo-arabic {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-top: 1px;
+    font-style: italic;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--body-font);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-links .nav-waitlist {
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    padding: 7px 18px;
+    border-radius: 2px;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+
+  .nav-links .nav-waitlist:hover { background: var(--btn-primary-hover); color: var(--btn-primary-text); }
+
+  /* ============================================================
+     PAGE WRAPPER
+  ============================================================ */
+  main { padding-top: 64px; }
+
+  /* ============================================================
+     HERO
+  ============================================================ */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+
+  .hero-film-bg {
+    position: absolute;
+    inset: 0;
+    background: #141414;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .play-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .play-btn {
+    width: 72px;
+    height: 72px;
+    border: 1.5px solid #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  .play-btn:hover { transform: scale(1.08); background: rgba(255,255,255,0.15); }
+
+  .play-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #ffffff;
+    margin-left: 3px;
+  }
+
+  .play-label {
+    font-family: var(--body-font);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 48px 80px;
+    max-width: 800px;
+  }
+
+  .hero-pre {
+    font-family: var(--body-font);
+    font-size: var(--section-label-size);
+    font-weight: 500;
+    letter-spacing: var(--section-label-spacing);
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .hero h1 {
+    font-family: var(--display-font);
+    font-size: var(--hero-display-size);
+    font-weight: var(--hero-display-weight);
+    font-style: var(--hero-display-style);
+    line-height: var(--hero-line-height);
+    color: #ffffff;
+    margin-bottom: 24px;
+  }
+
+  .hero p {
+    font-family: var(--body-font);
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.75);
+    max-width: 480px;
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    font-family: var(--body-font);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    padding: 14px 28px;
+    border: none;
+    border-radius: var(--card-radius);
+    cursor: pointer;
+    transition: background 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--btn-primary-hover); color: var(--btn-primary-text); }
+
+  .btn-secondary {
+    font-family: var(--body-font);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--btn-secondary-text);
+    padding: 13px 28px;
+    border: 1px solid var(--btn-secondary-border);
+    border-radius: var(--card-radius);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { background: var(--btn-secondary-hover-bg); }
+
+  /* Hero secondary button overrides for dark background */
+  .hero .btn-secondary {
+    color: #ffffff;
+    border-color: rgba(255,255,255,0.5);
+  }
+
+  .hero .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.8); }
+
+  /* ============================================================
+     SECTIONS COMMON
+  ============================================================ */
+  section { padding: 80px 48px; border-bottom: 1px solid var(--border); }
+
+  .section-label {
+    font-family: var(--body-font);
+    font-size: var(--section-label-size);
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 40px;
+    display: block;
+  }
+
+  .section-heading {
+    font-family: var(--display-font);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: var(--hero-display-weight);
+    font-style: var(--hero-display-style);
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-family: var(--body-font);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.7;
+  }
+
+  /* ============================================================
+     STATS STRIP
+  ============================================================ */
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .stats-strip-section {
+    padding: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-item {
+    padding: 20px 48px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .stat-item:last-child { border-right: none; }
+
+  .stat-number {
+    font-family: var(--display-font);
+    font-size: var(--stat-size);
+    font-weight: var(--stat-weight);
+    font-style: var(--hero-display-style);
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .stat-label {
+    font-family: var(--body-font);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+  }
+
+  /* ============================================================
+     FEATURED SECTION
+  ============================================================ */
+  .featured-film {}
+
+  .featured-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 21/9;
+    background: #ECECEC;
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    transition: border-color 0.2s;
+  }
+
+  .featured-card:hover { border-color: var(--border-hover); }
+
+  .featured-card-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px;
+    max-width: 720px;
+  }
+
+  .featured-platform-heading {
+    font-family: var(--display-font);
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    font-weight: var(--hero-display-weight);
+    font-style: var(--hero-display-style);
+    color: var(--text);
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+  }
+
+  .featured-platform-body {
+    font-family: var(--body-font);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+    max-width: 560px;
+  }
+
+  /* ============================================================
+     FILM GRID
+  ============================================================ */
+  .film-grid-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+  }
+
+  .view-all {
+    font-family: var(--body-font);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1px;
+    transition: color 0.2s;
+  }
+
+  .film-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .film-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .film-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+
+  .film-thumb {
+    aspect-ratio: 16/9;
+    background: #E8E8E8;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .film-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .film-card:hover .film-thumb-overlay { background: rgba(0,0,0,0.08); }
+
+  .film-thumb-play {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .film-card:hover .film-thumb-play { opacity: 1; }
+
+  .film-thumb-play svg {
+    width: 10px;
+    height: 10px;
+    fill: white;
+    margin-left: 2px;
+  }
+
+  .film-info {
+    padding: 16px 18px 18px;
+  }
+
+  .film-tag {
+    font-family: var(--body-font);
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tag-text);
+    background: var(--tag-bg);
+    padding: 3px 8px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .film-title {
+    font-family: var(--display-font);
+    font-size: 1.1rem;
+    font-weight: var(--hero-display-weight);
+    font-style: var(--hero-display-style);
+    color: var(--text);
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+
+  .film-director {
+    font-family: var(--body-font);
+    font-size: 0.75rem;
+    color: var(--text-subtle);
+  }
+
+  /* ============================================================
+     COMMUNITY
+  ============================================================ */
+  .community {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .community-heading {
+    font-family: var(--display-font);
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    font-weight: var(--hero-display-weight);
+    font-style: var(--hero-display-style);
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .community-body {
+    font-family: var(--body-font);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+
+  .community-price {
+    font-family: var(--display-font);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 24px;
+    font-style: normal;
+  }
+
+  .community-price span {
+    font-family: var(--body-font);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .community-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .member-avatars {
+    display: flex;
+  }
+
+  .avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+    background: #E8E8E8;
+    margin-left: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--body-font);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+
+  .avatar:first-child { margin-left: 0; }
+
+  .member-count {
+    font-family: var(--body-font);
+    font-size: 0.72rem;
+    color: var(--text-subtle);
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+
+  /* ============================================================
+     FESTIVAL
+  ============================================================ */
+  .festival {
+    text-align: center;
+    background: var(--bg-card);
+  }
+
+  .festival-year {
+    font-family: var(--body-font);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .festival-title {
+    font-family: var(--display-font);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: var(--hero-display-weight);
+    font-style: var(--hero-display-style);
+    color: var(--text);
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+
+  .festival-sub {
+    font-family: var(--body-font);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto 36px;
+    line-height: 1.7;
+  }
+
+  .festival-btns {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  /* ============================================================
+     WAITLIST SECTION
+  ============================================================ */
+  .waitlist-section {
+    text-align: center;
+  }
+
+  .waitlist-section .section-label {
+    display: block;
+    text-align: center;
+  }
+
+  .waitlist-section .section-heading {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .waitlist-section .section-sub {
+    text-align: center;
+    margin: 0 auto 40px;
+  }
+
+  .waitlist-form-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .waitlist-form-wrap input[type="email"] {
+    width: 100%;
+    padding: 14px 20px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text);
+    font-family: var(--body-font);
+    font-size: 0.9rem;
+    border-radius: var(--card-radius);
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+    display: block;
+  }
+
+  .waitlist-form-wrap input[type="email"]::placeholder {
+    color: var(--text-subtle);
+  }
+
+  .waitlist-form-wrap input[type="email"]:focus {
+    border-color: var(--accent);
+  }
+
+  .waitlist-form-wrap .btn-primary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .waitlist-note {
+    font-family: var(--body-font);
+    font-size: 0.75rem;
+    color: var(--text-subtle);
+    margin-top: 20px;
+    text-align: center;
+    display: block;
+  }
+
+  .waitlist-success {
+    font-family: var(--display-font);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: var(--hero-display-weight);
+    color: var(--text);
+    text-align: center;
+  }
+
+  /* ============================================================
+     FOOTER
+  ============================================================ */
+  footer {
+    padding: 48px 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-wordmark {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-family: var(--body-font);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text-muted); }
+
+  .footer-copy {
+    font-family: var(--body-font);
+    font-size: 0.7rem;
+    color: var(--text-subtle);
+  }
+
+  /* ============================================================
+     FADE-UP ANIMATION
+  ============================================================ */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 600ms ease, transform 600ms ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ============================================================
+     MOBILE RESPONSIVE
+  ============================================================ */
+  @media (max-width: 768px) {
+    nav {
+      padding: 0 24px;
+    }
+
+    .nav-links {
+      gap: 16px;
+    }
+
+    .nav-links li:not(:last-child):not(:nth-last-child(2)) {
+      display: none;
+    }
+
+    section {
+      padding: 60px 24px;
+    }
+
+    .hero-content {
+      padding: 0 24px 60px;
+    }
+
+    .film-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .community {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .community-right {
+      align-items: flex-start;
+    }
+
+    .stats-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-item {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 24px;
+    }
+
+    .stat-item:last-child {
+      border-bottom: none;
+    }
+
+    footer {
+      flex-direction: column;
+      gap: 24px;
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    .footer-links {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .festival-btns {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .btn-row {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .film-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .film-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+============================================================ -->
+<nav>
+  <a href="#" class="nav-wordmark">
+    <span class="logo">BinaForm</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Community</a></li>
+    <li><a href="#">Events</a></li>
+    <li><a href="#">Stories</a></li>
+    <li><a href="#">Membership</a></li>
+    <li><a href="#waitlist" class="nav-waitlist">Join Waitlist</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section class="hero" style="padding:0; border-bottom:none;">
+    <div class="hero-film-bg"></div>
+    <div class="hero-content">
+      <h1>The home of architecture stories.</h1>
+      <p>A platform for the stories of architects, buildings, and the people who shape the built world — told through film, community, and conversation.</p>
+      <div class="btn-row">
+        <a href="#waitlist" class="btn-primary">Join the Waitlist</a>
+        <a href="#stories" class="btn-secondary">Explore Stories</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       STATS STRIP
+  ============================================================ -->
+  <section class="stats-strip-section fade-up" style="padding:0; border-bottom: 1px solid var(--border);">
+    <div class="stats-strip">
+      <div class="stat-item">
+        <div class="stat-number">Stories</div>
+        <div class="stat-label">Platform</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">Community</div>
+        <div class="stat-label">Membership</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">2026</div>
+        <div class="stat-label">Launch</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURED SECTION — THE PLATFORM
+  ============================================================ -->
+  <section class="featured-film fade-up">
+    <span class="section-label">The Platform</span>
+    <div class="featured-card">
+      <div class="featured-card-inner">
+        <div class="featured-platform-heading">Architecture stories. Architecture community. One platform.</div>
+        <p class="featured-platform-body">BinaForm tells the stories of architects and the buildings they make — through film, through conversation, through a curated community of the people behind the built world.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       COMMUNITY SECTION
+  ============================================================ -->
+  <section class="fade-up">
+    <div class="community">
+      <div class="community-left">
+        <span class="section-label">The Community</span>
+        <div class="community-heading">Architecture's most curated room.</div>
+        <p class="community-body">BinaForm membership connects the people behind architecture stories — architects, photographers, filmmakers, writers, designers, and the wider industry around them. Curated events. A trusted network. A community built on shared taste and a genuine love for the built world.</p>
+        <a href="#waitlist" class="btn-primary">Join the Waitlist</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       WAITLIST SECTION
+  ============================================================ -->
+  <section id="waitlist" class="waitlist-section fade-up">
+    <span class="section-label">Join the Waitlist</span>
+    <div class="section-heading">The room is almost ready.</div>
+    <p class="section-sub">BinaForm launches in 2026. The waitlist is open now. Applications are reviewed in the order received.</p>
+
+    <div class="waitlist-form-wrap" id="waitlist-form-wrap">
+      <form id="waitlist-form" onsubmit="handleWaitlist(event)">
+        <input type="email" placeholder="Your email address" required autocomplete="email">
+        <button type="submit" class="btn-primary">Join the Waitlist</button>
+      </form>
+      <span class="waitlist-note">No noise. We write when something is worth reading.</span>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="footer-wordmark">BinaForm</div>
+  <ul class="footer-links">
+    <li><a href="#">Community</a></li>
+    <li><a href="#">Events</a></li>
+    <li><a href="#">Stories</a></li>
+    <li><a href="#">Membership</a></li>
+    <li><a href="#waitlist">Waitlist</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 BinaForm. All rights reserved.</div>
+</footer>
+
+<script>
+  // Waitlist form handler
+  function handleWaitlist(e) {
+    e.preventDefault();
+    const wrap = document.getElementById('waitlist-form-wrap');
+    wrap.innerHTML = '<div class="waitlist-success section-heading">You are on the list.</div>';
+  }
+
+  // IntersectionObserver fade-up
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
